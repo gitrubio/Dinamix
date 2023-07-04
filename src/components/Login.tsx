@@ -1,5 +1,5 @@
 import React from 'react'
-import { LoginWithUser } from '../services/auth.service'
+
 import { login } from '../store/auth/authSlice'
 import { useAppDispatch } from '../store/store'
 export default function Login() {
