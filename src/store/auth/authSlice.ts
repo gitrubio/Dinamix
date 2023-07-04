@@ -22,9 +22,14 @@ const initialState: AuthState = {
 	errorMessage: null,
 	isUpdateProfile: false,
 };
+
+export const persistLocalStorageState = ( authInfo : AuthState) => {
+	localStorage.setItem('auth',JSON.stringify(authInfo))
+}
+
 export const authSlice = createSlice({
 	name: 'auth',
-	initialState,
+	initialState : localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth') as string): initialState,
 	reducers: {
 		login: (state, { payload }: { payload: Partial<Omit<AuthState, 'status'>> }) => {
 			state.status = 'authenticated';
@@ -33,6 +38,7 @@ export const authSlice = createSlice({
 			state.displayName = payload.displayName ?? '';
 			state.photoURL = payload.photoURL ?? '';
 			state.errorMessage = null;
+			persistLocalStorageState(state)
 		},
 		logout: (state, { payload }) => {
 			state.status = 'not-authenticated';
