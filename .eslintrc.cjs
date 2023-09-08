@@ -14,7 +14,7 @@ module.exports = {
     'react-refresh/only-export-components': 'warn',
     'semi' : "off",
     'no-console' : "warn", 
-    "no-undef": "warn",
+    "no-undef": "error",
     "react-hooks/rules-of-hooks": "off",
     "no-unused-expressions": "warn",
   },

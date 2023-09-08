@@ -14,7 +14,7 @@ interface AuthState {
 
 
 const initialState: AuthState = {
-	status: 'checking', 
+	status: 'not-authenticated', 
 	uid: null,
 	email: null,
 	displayName: null,
@@ -29,7 +29,7 @@ export const persistLocalStorageState = ( authInfo : AuthState) => {
 
 export const authSlice = createSlice({
 	name: 'auth',
-	initialState : localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth') as string): initialState,
+	initialState : localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth') as string) as AuthState: initialState,
 	reducers: {
 		login: (state, { payload }: { payload: Partial<Omit<AuthState, 'status'>> }) => {
 			state.status = 'authenticated';
@@ -47,6 +47,7 @@ export const authSlice = createSlice({
 			state.displayName = null;
 			state.photoURL = null;
 			state.errorMessage = payload?.errorMessage;
+			localStorage.removeItem('auth')
 		},
 		actionUpdate: (state) => {
 			state.isUpdateProfile = true;
