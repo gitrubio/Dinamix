@@ -18,7 +18,6 @@ import { IUser } from '../../interfaces/auth.interfaces'
 
 export default function Login() {
 	const { status } = useStatus()
-	const navitage = useNavigate()
 	const dispatch = useAppDispatch()
 	const form = useForm({
 		initialValues: {
@@ -33,11 +32,7 @@ export default function Login() {
 	})
 
 	const login = (values: IUser) => {
-		dispatch(authLogin(values)).then(res => {
-			if (res) {
-				navitage('/dashboard')
-			}
-		})
+		dispatch(authLogin(values))
 	}
 
 	return (
