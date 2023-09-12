@@ -1,5 +1,7 @@
-import { AuthState } from "./auth.interfaces";
+import { Collaborator } from "./collaborators.interface";
+import { Organizationstate } from "./organizations.interface";
 
 export interface  PropsNavBar {
-    user  : AuthState;
+    currentOrg  : Organizationstate;
+    organizations : Collaborator[];
 }

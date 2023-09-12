@@ -3,10 +3,7 @@ import { ResponseService } from '../interfaces/api.interface'
 import { Collaborator } from '../interfaces/collaborators.interface'
 import {
 	addDoc,
-	getDoc,
 	getDocs,
-	deleteDoc,
-	updateDoc,
 	query,
 	where,
 } from 'firebase/firestore'
@@ -24,7 +21,6 @@ export class CollaboratorsService {
 			const newEventId = querySnapshot.id
 			return { data: newEventId, error: null }
 		} catch (error) {
-			console.error('Error al crear colaborador: ', error)
 			return { data: null, error: null }
 		}
 	}

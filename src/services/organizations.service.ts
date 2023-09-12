@@ -1,17 +1,10 @@
 
 
-import { CollaboratorCollectionRef, OrganizationCollectionRef } from '../firebase/providers'
+import {  OrganizationCollectionRef } from '../firebase/providers'
 import { ResponseService } from '../interfaces/api.interface'
-import { Collaborator } from '../interfaces/collaborators.interface'
 import { Organization, OrganizationFirabase } from '../interfaces/organizations.interface';
 import {
 	addDoc,
-	getDoc,
-	getDocs,
-	deleteDoc,
-	updateDoc,
-	query,
-	where,
 } from 'firebase/firestore'
 
 export class OrganizationsService {
@@ -30,7 +23,6 @@ export class OrganizationsService {
                 ...org
             }, error: null }
 		} catch (error) {
-			console.error('Error al registrar organización', error)
 			return { data: null, error: {
                 message: 'Error al registrar organización',
                 type: 'request',

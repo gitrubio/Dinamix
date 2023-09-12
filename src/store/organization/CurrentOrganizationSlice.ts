@@ -17,7 +17,7 @@ export const CurrentOrganizationSlice = createSlice({
 	name: 'currentOrg',
 	initialState : localStorage.getItem('currentOrg') ? JSON.parse(localStorage.getItem('currentOrg') as string) as Organizationstate: initialState,
 	reducers: {
-		changeCurrentOrg: (state, { payload }) => {
+		changeCurrentOrg: (state, { payload } : {payload : Organizationstate}) => {
 			state.id = payload.id;
 			state.avatar = payload.avatar;
 			state.name = payload.name;

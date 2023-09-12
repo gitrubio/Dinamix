@@ -1,4 +1,4 @@
-import { RollCollaborator } from "./collaborators.interface";
+import { Collaborator, RollCollaborator } from "./collaborators.interface";
 
 export interface Organization {
     name: string;
@@ -14,4 +14,9 @@ export interface Organizationstate {
     name: string;
     avatar: string
     rol: RollCollaborator
+}
+
+export interface PropsOrganizationCard {
+    organization : Collaborator
+    onChange: (organization: Organizationstate) => void
 }

@@ -1,6 +1,4 @@
 import './css/login.css'
-import { useNavigate } from 'react-router-dom'
-import { login } from '../../store/auth/authSlice'
 import { useAppDispatch } from '../../store/store'
 import {
 	Button,

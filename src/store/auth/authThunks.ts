@@ -14,7 +14,7 @@ const welcomeMessage = () => {
 	})
 }
 export const authLogin = (user: IUser) => {
-	return async (dispatch: any, getState: any) => {
+	return async (dispatch: any) => {
 		dispatch(checkingCredentials())
 		const { data } = await loginWithEmailPassword(user.email, user.password)
 		if (data) {
@@ -64,7 +64,7 @@ export const authLogin = (user: IUser) => {
 	}
 }
 export const authLogOut = () => {
-	return async (dispatch: any, getState: any) => {
+	return async (dispatch: any) => {
 		dispatch(checkingCredentials())
 		await logoutSession()
 		dispatch(logout({ errorMessage: 'finalizando sesión' }))

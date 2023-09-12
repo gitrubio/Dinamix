@@ -1,27 +1,25 @@
 import React from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { AppShell} from '@mantine/core'
 import NavDashboard from './components/NavDashboard'
 import { useStatus } from '../../hooks/useStatus'
 import { LINKS_NAV, NAV_ITEMS } from '../../constants'
 import HeaderDashboard from './components/HeaderDashboard'
-import { MIN_ORGANIZATION_LENGTH } from '../../constants/organizations'
 import useGetCurrentOrg from '../../hooks/useGetCurrentOrg'
 import SelectOrganization from '../organizations'
 
-export default function Dashboard(props: any) {
-	const navigate = useNavigate()
+export default function Dashboard() {
 	const user = useStatus()
-	const {id : organizationId}  = useGetCurrentOrg()
+	const currentOrganization  = useGetCurrentOrg()
 
-	if (organizationId === null) {
+	if (currentOrganization.id === null) {
 		return <SelectOrganization/>
 	}
 	return (
 		<AppShell
 			padding='md'
 			navbar={
-				<NavDashboard user={user}/>
+				<NavDashboard currentOrg={currentOrganization} organizations={user.organizations}/>
 			}
 			header={
 				<HeaderDashboard/>

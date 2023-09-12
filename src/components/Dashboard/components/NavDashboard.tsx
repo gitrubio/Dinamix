@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-	Navbar,
-	UnstyledButton,
-	Group,
-	Text,
-	Grid,
-	Input,
-} from '@mantine/core'
+import { Navbar, UnstyledButton, Group, Text, Grid, Input, rem } from '@mantine/core'
 import {
 	IconHome,
 	IconTemplate,
@@ -69,18 +62,18 @@ const secondayOptions = [
 	},
 ]
 
-export default function NavDashboard({ user }: PropsNavBar) {
+export default function NavDashboard(props: PropsNavBar) {
 	const navitage = useNavigate()
 
 	return (
 		<Navbar fixed={false} width={{ base: 350 }} height={'100%'} p='xs'>
 			<Navbar.Section>
-				<Organizations user={user} />
+				<Organizations {...props} />
 			</Navbar.Section>
 			<Navbar.Section style={{ marginBlock: 20 }}>
 				<Input icon={<IconSearch />} placeholder='Buscar' />
 			</Navbar.Section>
-			<Navbar.Section grow mt='md'>
+			<Navbar.Section grow mt="md">
 				<Grid>
 					{mainOptions.map(item => (
 						<Grid.Col key={`col-${item.key}`}>
@@ -110,7 +103,7 @@ export default function NavDashboard({ user }: PropsNavBar) {
 					))}
 				</Grid>
 			</Navbar.Section>
-			<Navbar.Section grow mt='md'>
+			<Navbar.Section grow mt="sm" style={{ borderTop: `${rem(1)} solid gray`, paddingTop: 10}}>
 				<Grid>
 					{secondayOptions.map(item => (
 						<Grid.Col key={`col-${item.key}`}>

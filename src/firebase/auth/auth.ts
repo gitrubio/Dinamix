@@ -14,7 +14,6 @@ export const loginWithEmailPassword = async (
 		)
 		return { data: response.user, error: null }
 	} catch (error: any) {
-		console.log('error', error);
 		return { data: null, error: 'Error al iniciar sesion' }
 	}
 }
@@ -33,7 +32,6 @@ export const RegissterUserWithEmailPassword = async (
 		)
 		return { data: response.user , error: null }
 	} catch (error: any) {
-		console.log('error', error);
 		return { data: null, error: 'Error al iniciar sesion' }
 	}
 }

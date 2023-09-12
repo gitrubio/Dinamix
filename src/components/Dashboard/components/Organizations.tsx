@@ -18,7 +18,10 @@ import {
     IconPlus,
 } from '@tabler/icons-react'
 import { useClickOutside } from '@mantine/hooks'
-import { AuthState } from '../../../interfaces/auth.interfaces'
+import { PropsNavBar } from '../../../interfaces/Dashboard.interface'
+import { useAppDispatch } from '../../../store/store'
+import { Organizationstate } from '../../../interfaces/organizations.interface'
+import { changeCurrentOrg } from '../../../store/organization'
 
 
 const scaleY = {
@@ -28,11 +31,17 @@ const scaleY = {
 	transitionProperty: 'transform, opacity',
 }
 
-export default function Organizations({ user }: { user: AuthState }) {
+export default function Organizations({ currentOrg,organizations }: PropsNavBar) {
+
 	const theme = useMantineTheme()
 	const [opened, setOpened] = useState(false)
 	const clickOutsideRef = useClickOutside(() => setOpened(false))
+    const dispatch = useAppDispatch()
 
+    const change = (orga : Organizationstate) => {
+      dispatch(changeCurrentOrg(orga))
+      setOpened(false)
+    }
 	const openModal = () => {
 		setOpened(prev => !prev)
 	}
@@ -79,7 +88,7 @@ export default function Organizations({ user }: { user: AuthState }) {
 								{'Organización'}
 							</Text>
 							<Text color='dimmed' size='xs'>
-								{user.organizations[0].Organization.name}
+								{currentOrg.name}
 							</Text>
 						</Box>
 
@@ -117,9 +126,10 @@ export default function Organizations({ user }: { user: AuthState }) {
 							
 						}}
 					>
-						<ScrollArea h={150}>
-							{user.organizations.map((item: any) => (
+						<ScrollArea h={130} type='scroll'>
+							{organizations.map((item: any) => (
 								<UnstyledButton
+                                    onClick={() => change({...item.Organization, rol: item.rol})}
 									key={item.Organization.id}
 									sx={{
 										display: 'block',

@@ -1,5 +1,4 @@
 import { Collaborator } from "./collaborators.interface";
-import { Organization } from "./organizations.interface";
 
 export interface IUser {
     email: string;
