@@ -26,8 +26,7 @@ export default function Login() {
 		},
 		validate: {
 			email: value => (/^\S+@\S+$/.test(value) ? null : 'Email invalido'),
-			password: value =>
-				value.length > 5 ? null : 'Se requiere contraseña de 6 digitos minimos',
+			password: value => value.length > 5 ? null : 'Se requiere contraseña de 6 dígitos mínimos',
 		},
 	})
 

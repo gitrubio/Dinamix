@@ -7,3 +7,13 @@ export const NAV_ITEMS = {
     IMPORT: 'Import',
     BIN: 'Bin',
 }
+
+export const LINKS_NAV = {
+    HOME: '/dashboard',
+    DYNAMICS: 'dynamics',
+    COLLABORATORS : 'collaborators',
+    TEMPLATE: 'template',
+    SETTINGS: 'settings',
+    IMPORT: 'import',
+    BIN: 'bin',
+}

@@ -17,7 +17,7 @@ export default function AppRoutes() {
 				<Route path={PublicRoutes.HOME} element={<p>home</p>} />
 				<Route path={PublicRoutes.LOGIN} element={status === 'authenticated' ? <Navigate to={PrivateRoutes.DASHBOARD}/>: <Login />}  />
 				<Route element={<AuthGuard />}>
-					<Route path={PrivateRoutes.DASHBOARD} element={<Dashboard />} />
+					<Route path={`${PrivateRoutes.DASHBOARD}/*`} element={<Dashboard />} />
 				</Route>
 				<Route path='*' element={<p> Not Found</p>} />
 			</Routes>

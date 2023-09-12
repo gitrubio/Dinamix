@@ -12,6 +12,7 @@ const initialState: AuthState = {
 	photoURL: null,
 	errorMessage: null,
 	isUpdateProfile: false,
+	organizations : []
 };
 
 export const persistLocalStorageState = ( authInfo : AuthState) => {
@@ -28,6 +29,7 @@ export const authSlice = createSlice({
 			state.email = payload.email;
 			state.displayName = payload.displayName ?? '';
 			state.photoURL = payload.photoURL ?? '';
+			state.organizations = payload.organizations ?? [];
 			state.errorMessage = null;
 			persistLocalStorageState(state)
 		},

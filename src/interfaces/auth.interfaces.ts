@@ -1,3 +1,6 @@
+import { Collaborator } from "./collaborators.interface";
+import { Organization } from "./organizations.interface";
+
 export interface IUser {
     email: string;
     password: string;
@@ -12,5 +15,7 @@ export interface AuthState {
 	photoURL: string | null;
 	errorMessage?: any;
 	isUpdateProfile: boolean;
+    organizations : Collaborator[];
 }
+
 export type TStatusConection = 'initial' | 'not-conection' | 'conection';
