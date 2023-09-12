@@ -47,7 +47,7 @@ export default function Organizations({ currentOrg,organizations }: PropsNavBar)
 	}
 
 	return (
-		<div ref={clickOutsideRef}>
+		<div ref={clickOutsideRef} style={{maxWidth: 350}}>
 			<Box
 				sx={{
 					paddingTop: theme.spacing.sm,

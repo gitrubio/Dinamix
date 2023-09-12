@@ -1,5 +1,13 @@
-import React from 'react'
-import { Navbar, UnstyledButton, Group, Text, Grid, Input, rem } from '@mantine/core'
+import React, { useState } from 'react'
+import {
+	Navbar,
+	UnstyledButton,
+	Group,
+	Input,
+	rem,
+	createStyles,
+	getStylesRef,
+} from '@mantine/core'
 import {
 	IconHome,
 	IconTemplate,
@@ -9,129 +17,185 @@ import {
 	IconSearch,
 	IconDownload,
 	IconRecycle,
+	IconLogout,
 } from '@tabler/icons-react'
 import { PropsNavBar } from '../../../interfaces/Dashboard.interface'
 import { LINKS_NAV, NAV_ITEMS } from '../../../constants'
 import { useNavigate } from 'react-router-dom'
 import Organizations from './Organizations'
+import { useAppDispatch } from '../../../store/store'
+import { authLogOut } from '../../../store/auth'
+
+const useStyles = createStyles(theme => ({
+	header: {
+		paddingBottom: theme.spacing.md,
+		marginBottom: `calc(${theme.spacing.md} * 1.5)`,
+		borderBottom: `${rem(1)} solid ${
+			theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+		}`,
+	},
+
+	footer: {
+		paddingTop: theme.spacing.md,
+		marginTop: theme.spacing.md,
+		borderTop: `${rem(1)} solid ${
+			theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+		}`,
+	},
+
+	link: {
+		...theme.fn.focusStyles(),
+		display: 'flex',
+		alignItems: 'center',
+		textDecoration: 'none',
+		fontSize: theme.fontSizes.sm,
+		width: '100%',
+		color:
+			theme.colorScheme === 'dark'
+				? theme.colors.dark[1]
+				: theme.colors.gray[7],
+		padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+		borderRadius: theme.radius.sm,
+		fontWeight: 500,
+		transition: 'all 100ms ease',
+		'&:hover': {
+			backgroundColor:
+				theme.colorScheme === 'dark'
+					? theme.colors.dark[6]
+					: theme.colors.gray[0],
+			color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+			[`& .${getStylesRef('icon')}`]: {
+				color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+			},
+		},
+	},
+
+	linkIcon: {
+		ref: getStylesRef('icon'),
+		color:
+			theme.colorScheme === 'dark'
+				? theme.colors.dark[2]
+				: theme.colors.gray[6],
+		marginRight: theme.spacing.sm,
+	},
+
+	linkActive: {
+		transform: 'translateX(10px)',
+		'&, &:hover': {
+			backgroundColor: theme.fn.variant({
+				variant: 'light',
+				color: theme.primaryColor,
+			}).background,
+			color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+				.color,
+			[`& .${getStylesRef('icon')}`]: {
+				color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+					.color,
+			},
+		},
+	},
+}))
 
 const mainOptions = [
 	{
-		icon: <IconHome size={'22px'} />,
+		icon: IconHome,
 		label: 'Inicio',
 		key: NAV_ITEMS.HOME,
 		link: LINKS_NAV.HOME,
 	},
 	{
-		icon: <IconDeviceGamepad2 size={'22px'} />,
+		icon: IconDeviceGamepad2,
 		label: 'Dinámicas',
 		key: NAV_ITEMS.DYNAMICS,
 		link: LINKS_NAV.DYNAMICS,
 	},
 	{
-		icon: <IconUsers size={'22px'} />,
+		icon: IconUsers,
 		label: 'Colaboradores',
 		key: NAV_ITEMS.COLLABORATORS,
 		link: LINKS_NAV.COLLABORATORS,
 	},
 	{
-		icon: <IconTemplate size={'22px'} />,
+		icon: IconTemplate,
 		label: 'Plantillas',
 		key: NAV_ITEMS.TEMPLATE,
 		link: LINKS_NAV.TEMPLATE,
 	},
 	{
-		icon: <IconSettings size={'22px'} />,
+		icon: IconSettings,
 		label: 'Configuración',
 		key: NAV_ITEMS.SETTINGS,
 		link: LINKS_NAV.SETTINGS,
 	},
-]
-const secondayOptions = [
 	{
-		icon: <IconDownload size={'22px'} />,
+		icon: IconDownload,
 		label: 'Importar dinámicas',
 		key: NAV_ITEMS.IMPORT,
 		link: LINKS_NAV.IMPORT,
-	},
-	{
-		icon: <IconRecycle size={'22px'} />,
-		label: 'Papelera',
-		key: NAV_ITEMS.BIN,
-		link: LINKS_NAV.BIN,
-	},
+	}
 ]
 
 export default function NavDashboard(props: PropsNavBar) {
 	const navitage = useNavigate()
+	const dispatch = useAppDispatch()
+	const { classes, cx } = useStyles()
+	const [active, setActive] = useState(NAV_ITEMS.HOME)
+
+	const logoutSesion = () => {
+		dispatch(authLogOut()).then(() => {
+			navitage('/login')
+		})
+    }
+	const changeView = (link: string,key: string) => {
+		setActive(key)
+		navitage(link)
+	}
+
+	const links = mainOptions.map(item => (
+		<UnstyledButton
+			className={cx(classes.link, {
+				[classes.linkActive]: item.key === active,
+			})}
+			onClick={() => changeView(item.link,item.key)}
+			key={item.key}
+		>
+			<item.icon className={classes.linkIcon} stroke={1.5} />
+			<span>{item.label}</span>
+		</UnstyledButton>
+	))
 
 	return (
-		<Navbar fixed={false} width={{ base: 350 }} height={'100%'} p='xs'>
+		<Navbar fixed={false} height={'100%'} width={{ sm: 350 }} p='md'>
 			<Navbar.Section>
 				<Organizations {...props} />
 			</Navbar.Section>
 			<Navbar.Section style={{ marginBlock: 20 }}>
 				<Input icon={<IconSearch />} placeholder='Buscar' />
 			</Navbar.Section>
-			<Navbar.Section grow mt="md">
-				<Grid>
-					{mainOptions.map(item => (
-						<Grid.Col key={`col-${item.key}`}>
-							<UnstyledButton
-								onClick={() => navitage(item.link)}
-								key={item.key}
-								sx={theme => ({
-									display: 'flex',
-									justifyContent: 'start',
-									width: '100%',
-									padding: theme.spacing.xs,
-									borderRadius: theme.radius.md,
-									color: theme.black,
-									transition: 'all 100ms ease',
-									'&:hover': {
-										backgroundColor: theme.colors.gray[1],
-										transform: 'translateX(5px)',
-									},
-								})}
-							>
-								<Group align='center'>
-									{item.icon}
-									<Text size='lg'>{item.label}</Text>
-								</Group>
-							</UnstyledButton>
-						</Grid.Col>
-					))}
-				</Grid>
+			<Navbar.Section grow>
+				<Group className={classes.header} position='apart'></Group>
+				{links}
 			</Navbar.Section>
-			<Navbar.Section grow mt="sm" style={{ borderTop: `${rem(1)} solid gray`, paddingTop: 10}}>
-				<Grid>
-					{secondayOptions.map(item => (
-						<Grid.Col key={`col-${item.key}`}>
-							<UnstyledButton
-								onClick={() => navitage(item.link)}
-								key={item.key}
-								sx={theme => ({
-									display: 'flex',
-									justifyContent: 'start',
-									width: '100%',
-									padding: theme.spacing.xs,
-									borderRadius: theme.radius.md,
-									color: theme.black,
-									transition: 'all 100ms ease',
-									'&:hover': {
-										backgroundColor: theme.colors.gray[1],
-										transform: 'translateX(5px)',
-									},
-								})}
-							>
-								<Group align='center'>
-									{item.icon}
-									<Text size='lg'>{item.label}</Text>
-								</Group>
-							</UnstyledButton>
-						</Grid.Col>
-					))}
-				</Grid>
+
+			<Navbar.Section className={classes.footer}>
+				<UnstyledButton
+					key={NAV_ITEMS.BIN}
+					className={cx(classes.link, {
+						[classes.linkActive]: NAV_ITEMS.BIN  === active,
+					})}
+					onClick={()=> changeView(LINKS_NAV.BIN,NAV_ITEMS.BIN)}
+				>
+					<IconRecycle className={classes.linkIcon} stroke={1.5} />
+					<span>Papelera</span>
+				</UnstyledButton>
+
+				<UnstyledButton
+					className={classes.link}
+					onClick={logoutSesion}
+				>
+					<IconLogout className={classes.linkIcon} stroke={1.5} />
+					<span>Salir</span>
+				</UnstyledButton>
 			</Navbar.Section>
 		</Navbar>
 	)

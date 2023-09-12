@@ -21,9 +21,9 @@ export default function Dashboard() {
 			navbar={
 				<NavDashboard currentOrg={currentOrganization} organizations={user.organizations}/>
 			}
-			header={
+			/* header={
 				<HeaderDashboard/>
-			}
+			} */
 			styles={theme => ({
 				main: {
 					backgroundColor: theme.colors.gray[0],
