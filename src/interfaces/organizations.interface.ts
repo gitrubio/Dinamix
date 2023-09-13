@@ -20,3 +20,9 @@ export interface PropsOrganizationCard {
     organization : Collaborator
     onChange: (organization: Organizationstate) => void
 }
+
+export interface PropsOrganizationCardList {
+    data : Collaborator[]
+    currentId : string | null
+    onChange: (organization: Organizationstate) => void
+}

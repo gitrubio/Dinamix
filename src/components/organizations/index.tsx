@@ -34,7 +34,7 @@ export default function SelectOrganization() {
 					maw={830}
 					align='start'
 					slidesToScroll={2}
-					style={{borderRadius: 10}}
+					sx={{borderRadius: 10}}
 				>
 					{organizations.map(organization => (
 						<Carousel.Slide key={organization.Organization.id} style={{ marginLeft: 4, marginBlock: 10}}>
