@@ -14,7 +14,6 @@ export interface AuthState {
 	photoURL: string | null;
 	errorMessage?: any;
 	isUpdateProfile: boolean;
-    organizations : Collaborator[];
 }
 
 export type TStatusConection = 'initial' | 'not-conection' | 'conection';

@@ -1,9 +1,11 @@
 import { notifications } from '@mantine/notifications'
 import { loginWithEmailPassword, logoutSession } from '../../firebase/auth/auth'
 import { IUser } from '../../interfaces/auth.interfaces'
-import { checkingCredentials, login, logout } from './authSlice'
-import { CollaboratorServices } from '../../services'
-import { createOrganizationAndCollaborator } from '../../utils/api.utils'
+import {
+	checkingCredentials,
+	login,
+	logout,
+} from './authSlice'
 
 const welcomeMessage = () => {
 	notifications.show({
@@ -18,40 +20,14 @@ export const authLogin = (user: IUser) => {
 		dispatch(checkingCredentials())
 		const { data } = await loginWithEmailPassword(user.email, user.password)
 		if (data) {
-			const { data: Organizations } = await CollaboratorServices.getOrganizationsByCollaborator(data?.uid)
-			if (Organizations.length === 0) {
-				createOrganizationAndCollaborator(user, data?.uid)
-					.then(response => {
-						welcomeMessage()
-						dispatch(
-							login({
-								uid: data?.uid,
-								displayName: data?.displayName,
-								email: data?.email,
-								organizations: [{ ...response }],
-							})
-						)
-					})
-					.catch(() => {
-						dispatch(logout({ errorMessage: 'Error al iniciar sesión' }))
-						notifications.show({
-							id: 'auth-error',
-							title: 'Error al iniciar sesión',
-							message: 'Parece que algo salio mal 😥',
-							color: 'red',
-						})
-					})
-			} else {
-				welcomeMessage()
-				dispatch(
-					login({
-						uid: data?.uid,
-						displayName: data?.displayName,
-						email: data?.email,
-						organizations: Organizations,
-					})
-				)
-			}
+			welcomeMessage()
+			dispatch(
+				login({
+					uid: data?.uid,
+					displayName: data?.displayName,
+					email: data?.email,
+				})
+			)
 		} else {
 			dispatch(logout({ errorMessage: 'Error al iniciar sesión' }))
 			notifications.show({
@@ -63,6 +39,7 @@ export const authLogin = (user: IUser) => {
 		}
 	}
 }
+
 export const authLogOut = () => {
 	return async (dispatch: any) => {
 		dispatch(checkingCredentials())
@@ -71,3 +48,19 @@ export const authLogOut = () => {
 		return true
 	}
 }
+
+/* export const organizationsUpdate = (userId: string) => {
+	return async (dispatch: any) => {
+		const { data, error } =
+			await CollaboratorServices.getOrganizationsByCollaborator(userId)
+		dispatch(uptadeOrganizations({ organizations: data }))
+		if (error) {
+			notifications.show({
+				id: 'auth-error',
+				title: 'Error al iniciar sesión',
+				message: 'Error al obtener las organizaciones del usuario',
+				color: 'red',
+			})
+		}
+	}
+} */

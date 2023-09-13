@@ -14,17 +14,16 @@ import {
 import {
 	IconBuildingSkyscraper,
 	IconChevronDown,
-	IconChevronRight,
 	IconChevronUp,
 	IconDots,
 	IconLogout,
-	IconHome2,
+	IconFilePlus,
 } from '@tabler/icons-react'
 import { useClickOutside } from '@mantine/hooks'
 import { PropsNavBar } from '../../../interfaces/Dashboard.interface'
 import { useAppDispatch } from '../../../store/store'
-import { Organizationstate } from '../../../interfaces/organizations.interface'
-import { changeCurrentOrg } from '../../../store/organization'
+import { CurrentOrganizationstate } from '../../../interfaces/organizations.interface'
+import { changeCurrentOrg } from '../../../store/currentOrganizations'
 import { DndListHandle } from './DragableItem'
 
 const scaleY = {
@@ -44,7 +43,7 @@ export default function Organizations({
 	const clickOutsideRef = useClickOutside(() => setOpened(false))
 	const dispatch = useAppDispatch()
 
-	const change = (orga: Organizationstate) => {
+	const change = (orga: CurrentOrganizationstate) => {
 		dispatch(changeCurrentOrg(orga))
 		setOpened(false)
 	}
@@ -143,7 +142,7 @@ export default function Organizations({
 							</UnstyledButton>
 						</Box>
 						<Box >
-							<DndListHandle onChange={change} data={organizations} currentId={currentOrg.id}/>
+							<DndListHandle onClick={change} data={organizations} currentId={currentOrg.id}/>
 						</Box>
 						<Box
 							sx={{
@@ -160,7 +159,7 @@ export default function Organizations({
 										backgroundColor: theme.colors.gray[1],
 									}
 								}}
-								icon={<IconHome2 size='1rem' stroke={1.5} />}
+								icon={<IconFilePlus size='1rem' stroke={1.5} />}
 							/>
 							<NavLink
 								onClick={logOut}

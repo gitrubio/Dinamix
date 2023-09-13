@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthState } from '../../interfaces/auth.interfaces';
+import { Collaborator } from '../../interfaces/collaborators.interface';
 
 
 
@@ -12,7 +13,6 @@ const initialState: AuthState = {
 	photoURL: null,
 	errorMessage: null,
 	isUpdateProfile: false,
-	organizations : []
 };
 
 export const persistLocalStorageState = ( authInfo : AuthState) => {
@@ -29,7 +29,6 @@ export const authSlice = createSlice({
 			state.email = payload.email;
 			state.displayName = payload.displayName ?? '';
 			state.photoURL = payload.photoURL ?? '';
-			state.organizations = payload.organizations ?? [];
 			state.errorMessage = null;
 			persistLocalStorageState(state)
 		},
@@ -51,7 +50,7 @@ export const authSlice = createSlice({
 		},
 		checkingCredentials: state => {
 			state.status = 'checking';
-		},
+		}
 	},
 });
 
@@ -61,5 +60,5 @@ export const {
 	logout,
 	checkingCredentials,
 	updateUserInfo,
-	actionUpdate,
+	actionUpdate
 } = authSlice.actions;

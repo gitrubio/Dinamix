@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { authSlice } from './auth';
-import { CurrentOrganizationSlice } from './organization';
+import { CurrentOrganizationSlice } from './currentOrganizations';
+import { organizationSlice } from './organizations';
 
 
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
-        currentOrg: CurrentOrganizationSlice.reducer
+        currentOrg: CurrentOrganizationSlice.reducer,
+        organizations: organizationSlice.reducer
     },
 })
 

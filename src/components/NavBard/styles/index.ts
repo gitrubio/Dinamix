@@ -11,7 +11,12 @@ export const useStyles = createStyles(theme => ({
 		marginBottom: `calc(${theme.spacing.md} * 1.5)`,
 		borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}`,
 	},
-
+	searchCode: {
+		fontWeight: 700,
+		fontSize: rem(10),
+		backgroundColor: theme.colors.gray[0],
+		border: `${rem(1)} solid ${ theme.colors.gray[2]}`,
+	},
 	footer: {
 		paddingTop: theme.spacing.md,
 		marginTop: theme.spacing.md,

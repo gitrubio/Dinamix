@@ -4,12 +4,10 @@ import {
 	UnstyledButton,
 	Group,
 	Input,
+	TextInput,
+	Code,
 } from '@mantine/core'
-import {
-	IconSearch,
-	IconDownload,
-	IconRecycle,
-} from '@tabler/icons-react'
+import { IconSearch, IconDownload, IconRecycle } from '@tabler/icons-react'
 import { PropsNavBar } from '../../interfaces/Dashboard.interface'
 import { LINKS_NAV, NAV_ITEMS } from '../../constants'
 import { useNavigate } from 'react-router-dom'
@@ -17,13 +15,12 @@ import Organizations from './components/Organizations'
 import { mainOptions } from './utils'
 import { useStyles } from './styles'
 
-
 export default function NavDashboard(props: PropsNavBar) {
 	const navitage = useNavigate()
 	const { classes, cx } = useStyles()
 	const [active, setActive] = useState(NAV_ITEMS.HOME)
-	
-	const changeView = (link: string,key: string) => {
+
+	const changeView = (link: string, key: string) => {
 		setActive(key)
 		navitage(link)
 	}
@@ -33,7 +30,7 @@ export default function NavDashboard(props: PropsNavBar) {
 			className={cx(classes.link, {
 				[classes.linkActive]: item.key === active,
 			})}
-			onClick={() => changeView(item.link,item.key)}
+			onClick={() => changeView(item.link, item.key)}
 			key={item.key}
 		>
 			<item.icon className={classes.linkIcon} stroke={1.5} />
@@ -42,12 +39,25 @@ export default function NavDashboard(props: PropsNavBar) {
 	))
 
 	return (
-		<Navbar  height={'100%'} width={{ sm: 350 }}  hiddenBreakpoint="sm"  hidden={!props.opened}> 
+		<Navbar
+			height={'100%'}
+			width={{ sm: 350 }}
+			hiddenBreakpoint='sm'
+			hidden={!props.opened}
+		>
 			<Navbar.Section>
 				<Organizations {...props} />
 			</Navbar.Section>
 			<Navbar.Section sx={{ margin: 10 }}>
-				<Input icon={<IconSearch />} placeholder='Buscar' />
+				<TextInput
+					placeholder='Buscar'
+					size='xs'
+					icon={<IconSearch size='0.8rem' stroke={1.5} />}
+					rightSectionWidth={70}
+					rightSection={<Code className={classes.searchCode}>Ctrl + X</Code>}
+					styles={{ rightSection: { pointerEvents: 'none' } }}
+					mb='sm'
+				/>
 			</Navbar.Section>
 			<Navbar.Section grow>
 				<Group className={classes.header} position='apart'></Group>
@@ -55,26 +65,27 @@ export default function NavDashboard(props: PropsNavBar) {
 			</Navbar.Section>
 
 			<Navbar.Section grow className={classes.footer}>
-				
 				<UnstyledButton
 					key={NAV_ITEMS.IMPORT}
-					className={cx(classes.link, {[classes.linkActive]: NAV_ITEMS.IMPORT  === active,})}
-					onClick={()=> changeView(LINKS_NAV.IMPORT,NAV_ITEMS.IMPORT)}
+					className={cx(classes.link, {
+						[classes.linkActive]: NAV_ITEMS.IMPORT === active,
+					})}
+					onClick={() => changeView(LINKS_NAV.IMPORT, NAV_ITEMS.IMPORT)}
 				>
 					<IconDownload className={classes.linkIcon} stroke={1.5} />
 					<span>Importar dinámicas</span>
 				</UnstyledButton>
-				
+
 				<UnstyledButton
 					key={NAV_ITEMS.BIN}
-					className={cx(classes.link, {[classes.linkActive]: NAV_ITEMS.BIN  === active,
+					className={cx(classes.link, {
+						[classes.linkActive]: NAV_ITEMS.BIN === active,
 					})}
-					onClick={()=> changeView(LINKS_NAV.BIN,NAV_ITEMS.BIN)}
+					onClick={() => changeView(LINKS_NAV.BIN, NAV_ITEMS.BIN)}
 				>
 					<IconRecycle className={classes.linkIcon} stroke={1.5} />
 					<span>Papelera</span>
 				</UnstyledButton>
-
 			</Navbar.Section>
 		</Navbar>
 	)

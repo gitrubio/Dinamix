@@ -1,35 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Organizationstate } from '../../interfaces/organizations.interface';
+import { CurrentOrganizationstate } from '../../interfaces/organizations.interface';
 
 
-const initialState: Organizationstate = {
+const initialState: CurrentOrganizationstate = {
 	id: null,
     name: '',
     avatar: '',
     rol: 'viewer'
 };
 
-export const persistLocalStorageState = ( orgInfo : Organizationstate) => {
+export const persistLocalStorageState = ( orgInfo : CurrentOrganizationstate) => {
 	localStorage.setItem('currentOrg',JSON.stringify(orgInfo))
 }
-
+// localStorage.getItem('currentOrg') ? JSON.parse(localStorage.getItem('currentOrg') as string) as CurrentOrganizationstate: 
 export const CurrentOrganizationSlice = createSlice({
 	name: 'currentOrg',
-	initialState : localStorage.getItem('currentOrg') ? JSON.parse(localStorage.getItem('currentOrg') as string) as Organizationstate: initialState,
+	initialState :initialState,
 	reducers: {
-		changeCurrentOrg: (state, { payload } : {payload : Organizationstate}) => {
+		changeCurrentOrg: (state, { payload } : {payload : CurrentOrganizationstate}) => {
 			state.id = payload.id;
 			state.avatar = payload.avatar;
 			state.name = payload.name;
 			state.rol = payload.rol;
-			persistLocalStorageState(state)
+			//persistLocalStorageState(state)
 		},
 		removeOrg: (state) => {
 			state.id = null;
 			state.avatar = '';
 			state.name = '';
 			state.rol = 'viewer';
-			localStorage.removeItem('currentOrg')
+			//localStorage.removeItem('currentOrg')
 		}
 	},
 });

@@ -1,5 +1,4 @@
 import './css/login.css'
-import { useAppDispatch } from '../../store/store'
 import {
 	Button,
 	PasswordInput,
@@ -11,12 +10,11 @@ import {
 import { IconLock } from '@tabler/icons-react'
 import { useForm } from '@mantine/form'
 import { useStatus } from '../../hooks/useStatus'
-import { authLogin } from '../../store/auth'
-import { IUser } from '../../interfaces/auth.interfaces'
+import useAuth from '../../hooks/useAuth'
 
 export default function Login() {
 	const { status } = useStatus()
-	const dispatch = useAppDispatch()
+	const { login } = useAuth()
 	const form = useForm({
 		initialValues: {
 			email: '',
@@ -24,13 +22,10 @@ export default function Login() {
 		},
 		validate: {
 			email: value => (/^\S+@\S+$/.test(value) ? null : 'Email invalido'),
-			password: value => value.length > 5 ? null : 'Se requiere contraseña de 6 dígitos mínimos',
+			password: value =>
+				value.length > 5 ? null : 'Se requiere contraseña de 6 dígitos mínimos',
 		},
 	})
-
-	const login = (values: IUser) => {
-		dispatch(authLogin(values))
-	}
 
 	return (
 		<div className='login_container'>

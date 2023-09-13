@@ -1,7 +1,7 @@
-import { Box, createStyles, getStylesRef, rem, Text } from '@mantine/core';
+import { Box, createStyles, rem, Text, Avatar } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import {DragDropContext, Draggable, Droppable,} from 'react-beautiful-dnd';
-import { IconGripVertical, IconCheck } from '@tabler/icons-react';
+import { IconGripVertical, IconCheck, IconBuildingSkyscraper } from '@tabler/icons-react';
 import { PropsOrganizationCardList } from '../../../interfaces/organizations.interface';
 
 const useStyles = createStyles((theme) => ({
@@ -10,9 +10,10 @@ const useStyles = createStyles((theme) => ({
       userSelect: 'none',
       borderRadius: theme.radius.md,
       padding: theme.spacing.sm,
-      paddingLeft: `calc(${theme.spacing.xl} - ${theme.spacing.md})`, 
+      paddingLeft: 0, 
       marginBottom: theme.spacing.xs,
       '&:hover': {
+        cursor: 'pointer',
         backgroundColor: theme.colors.gray[2],
         color: theme.black,
     },
@@ -32,16 +33,16 @@ const useStyles = createStyles((theme) => ({
       ...theme.fn.focusStyles(),
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
       height: '100%',
-      paddingLeft: theme.spacing.md,
+      paddingLeft: theme.spacing.xs,
       paddingRight: theme.spacing.md,
     },
   }));
   
 
   
-  export function DndListHandle({ data, currentId,onChange }: PropsOrganizationCardList) {
+  export function DndListHandle({ data, currentId, onClick }: PropsOrganizationCardList) {
     const { classes, cx } = useStyles();
     const [state, handlers] = useListState(data);
   
@@ -49,18 +50,31 @@ const useStyles = createStyles((theme) => ({
       <Draggable key={item.Organization.id} index={index} draggableId={item.Organization.id}>  
         {(provided, snapshot) =>  (
           <div
-          onClick={()=>onChange({...item.Organization,rol: item.rol})}
+          onClick={()=>onClick({...item.Organization,rol: item.rol})}
             className={cx(classes.item, { [classes.itemDragging]: snapshot.isDragging })}
             ref={provided.innerRef}
             {...provided.draggableProps}
-            
           >
-            <div  {...provided.dragHandleProps}   className={classes.dragHandle}>
-              <IconGripVertical size="1.15rem" stroke={1.5} />
+            <Box  className={classes.dragHandle} >
+            <div  {...provided.dragHandleProps}  >
+              <IconGripVertical size="1.15rem" stroke={1.5} style={{ marginRight: 5}}/>
             </div>
+            {item.Organization.avatar !== '' ? (
+							<Avatar radius='sm' src={item.Organization.avatar} />
+						) : (
+							<IconBuildingSkyscraper
+								size={41}
+								style={{
+									background: '#d1d1d1',
+									padding: '1px',
+									borderRadius: '5px',
+								}}
+							/>
+						)}
+            </Box>
             <Box display={'flex'}  >
             <Text className={classes.symbol}>{item.Organization.name}</Text>
-            {item.Organization.id === currentId && <IconCheck size="1.15rem" stroke={1.5} />}
+            {item.Organization.id === currentId && <IconCheck size="2.15rem" stroke={1.5} />}
             </Box>
           </div>
         )}

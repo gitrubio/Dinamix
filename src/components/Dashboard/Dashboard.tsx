@@ -1,29 +1,27 @@
 import React, { useState } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
-import { AppShell, Burger, Header, MediaQuery, Text } from '@mantine/core'
+import { Route, Routes } from 'react-router-dom'
+import { AppShell, Burger, Header, LoadingOverlay, MediaQuery } from '@mantine/core'
 import NavDashboard from '../NavBard'
 import { useStatus } from '../../hooks/useStatus'
 import { LINKS_NAV, NAV_ITEMS } from '../../constants'
 import useGetCurrentOrg from '../../hooks/useGetCurrentOrg'
 import SelectOrganization from '../organizations'
-import { authLogOut } from '../../store/auth'
-import { useAppDispatch } from '../../store/store'
-import { DndListHandle } from '../NavBard/components/DragableItem'
+import useAuth from '../../hooks/useAuth'
+import { useOrganizations } from '../../hooks/useOrganizations'
 
 export default function Dashboard() {
-	const user = useStatus()
 	const currentOrganization = useGetCurrentOrg()
-	const navitage = useNavigate()
-	const dispatch = useAppDispatch()
 	const [opened, setOpened] = useState(false)
-	if (currentOrganization.id === null) {
-		return <SelectOrganization />
+	const {organizations,status,getOrganizations} = useOrganizations()
+	const { logout } = useAuth()
+	const user = useStatus()
+
+
+	if(status === 'loading' && user.uid !== null){ 
+		getOrganizations(user.uid)
+		return (<LoadingOverlay visible overlayBlur={2} />)
 	}
-	const logoutSesion = () => {
-		dispatch(authLogOut()).then(() => {
-			navitage('/login')
-		})
-    }
+	if (currentOrganization.id === null) return <SelectOrganization data={organizations}/>
 	return (
 		<AppShell
 			padding='md'
@@ -32,8 +30,8 @@ export default function Dashboard() {
 					opened={opened}
 					userInfo={user}
 					currentOrg={currentOrganization}
-					organizations={user.organizations}
-					logOut={logoutSesion}
+					organizations={organizations}
+					logOut={logout}
 				/>
 			}
 			header={
@@ -50,7 +48,7 @@ export default function Dashboard() {
 								mr='xl'
 							/>
 						</MediaQuery>
-{/* 
+						{/* 
 						<Text>Application header</Text> */}
 					</div>
 				</Header>

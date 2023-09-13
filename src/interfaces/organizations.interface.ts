@@ -9,7 +9,7 @@ export interface OrganizationFirabase extends Organization {
     id: string;
 }
 
-export interface Organizationstate {
+export interface CurrentOrganizationstate {
     id: string | null;
     name: string;
     avatar: string
@@ -18,11 +18,16 @@ export interface Organizationstate {
 
 export interface PropsOrganizationCard {
     organization : Collaborator
-    onChange: (organization: Organizationstate) => void
+    onClick: (organization: CurrentOrganizationstate) => void
 }
 
 export interface PropsOrganizationCardList {
     data : Collaborator[]
-    currentId : string | null
-    onChange: (organization: Organizationstate) => void
+    currentId?: string | null
+    onClick: (organization: CurrentOrganizationstate) => void
+}
+
+export interface OrganizationState {
+    data: Collaborator[];
+    status:  'loading' | 'completed';
 }
