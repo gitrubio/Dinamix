@@ -1,25 +1,27 @@
 import React from 'react'
-import { Button, Header } from '@mantine/core'
+import { Burger, Header, MediaQuery } from '@mantine/core'
 import { useAppDispatch } from '../../../store/store'
-import { useNavigate } from 'react-router-dom'
-import { authLogOut } from '../../../store/auth'
 
-export default function HeaderDashboard() {
+export default function HeaderDashboard({opened,onclick}: { opened: boolean, onclick: () => void }) {
     const dispatch = useAppDispatch()
-    const navitage = useNavigate()
-	const logoutSesion = () => {
-		dispatch(authLogOut()).then(() => {
-			navitage('/login')
-		})
-    }
     
 	return (
-		<Header
-			height={60}
-			p='xs'
-			style={{ display: 'flex', justifyContent: 'end' }}
-		>
-			<Button onClick={logoutSesion}>Logout</Button>
-		</Header>
+		<Header height={{ base: 50, md: 70 }} p='md'>
+					<div
+						style={{ display: 'flex', alignItems: 'center', height: '100%' }}
+					>
+						<MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+							<Burger
+								opened={opened}
+								onClick={onclick}
+								size='sm'
+								color={'gray'}
+								mr='xl'
+							/>
+						</MediaQuery>
+						{/* 
+						<Text>Application header</Text> */}
+					</div>
+				</Header>
 	)
 }

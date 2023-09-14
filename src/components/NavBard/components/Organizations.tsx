@@ -10,6 +10,7 @@ import {
 	UnstyledButton,
 	rem,
 	useMantineTheme,
+	MediaQuery
 } from '@mantine/core'
 import {
 	IconBuildingSkyscraper,
@@ -36,7 +37,8 @@ export default function Organizations({
 	currentOrg,
 	organizations,
 	userInfo,
-	logOut
+	logOut,
+	open
 }: PropsNavBar) {
 	const theme = useMantineTheme()
 	const [opened, setOpened] = useState(false)
@@ -52,7 +54,7 @@ export default function Organizations({
 	}
 
 	return (
-		<div ref={clickOutsideRef} style={{ maxWidth: 350 }}>
+		<div ref={clickOutsideRef} >
 			<Box
 				sx={{
 					paddingTop: theme.spacing.sm,
@@ -67,8 +69,9 @@ export default function Organizations({
 						padding: theme.spacing.xs,
 						borderRadius: theme.radius.sm,
 						color: theme.black,
+						backgroundColor: theme.colors.gray[0],
 						'&:hover': {
-							backgroundColor: theme.colors.gray[0],
+							backgroundColor: theme.colors.gray[2],
 						},
 					}}
 				>
@@ -89,6 +92,7 @@ export default function Organizations({
 								}}
 							/>
 						)}
+						<MediaQuery smallerThan={'lg'} styles={{ display: 'none' }}>
 						<Box sx={{ flex: 1 }}>
 							<Text size='sm' weight={500}>
 								{currentOrg.name}
@@ -97,7 +101,7 @@ export default function Organizations({
 								{userInfo.email}
 							</Text>
 						</Box>
-
+				</MediaQuery>
 						<Box
 							style={{
 								display: 'flex',
@@ -120,6 +124,7 @@ export default function Organizations({
 				{(styles: any) => (
 					<Paper
 						sx={{
+							minWidth: 350,
 							width: '100%',
 							marginLeft: 0,
 							marginTop: 5,
@@ -153,6 +158,7 @@ export default function Organizations({
 							}}
 						>
 							<NavLink
+								onClick={open}
 								label='Nueva organización'
 								sx={{
 									'&:hover': {

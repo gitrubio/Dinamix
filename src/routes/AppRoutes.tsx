@@ -5,6 +5,7 @@ import Login from '../components/Login/index.tsx'
 import AuthGuard from '../guards/auth.guard.tsx'
 import Dashboard from '../components/Dashboard/Dashboard.tsx'
 import { useStatus } from '../hooks/useStatus.ts'
+import { NotFoundPage } from '../components/NotFound/index.tsx'
 
 export default function AppRoutes() {
 
@@ -19,7 +20,7 @@ export default function AppRoutes() {
 				<Route element={<AuthGuard />}>
 					<Route path={`${PrivateRoutes.DASHBOARD}/*`} element={<Dashboard />} />
 				</Route>
-				<Route path='*' element={<p> Not Found</p>} />
+				<Route path='*' element={<NotFoundPage/>} />
 			</Routes>
 		</BrowserRouter>
 	)

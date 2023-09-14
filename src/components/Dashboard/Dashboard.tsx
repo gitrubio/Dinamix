@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { AppShell, Burger, Header, LoadingOverlay, MediaQuery } from '@mantine/core'
+import { AppShell, LoadingOverlay, Text, Box } from '@mantine/core';
 import NavDashboard from '../NavBard'
 import { useStatus } from '../../hooks/useStatus'
 import { LINKS_NAV, NAV_ITEMS } from '../../constants'
@@ -8,10 +8,15 @@ import useGetCurrentOrg from '../../hooks/useGetCurrentOrg'
 import SelectOrganization from '../organizations'
 import useAuth from '../../hooks/useAuth'
 import { useOrganizations } from '../../hooks/useOrganizations'
+import HeaderDashboard from './components/HeaderDashboard'
+import Home from '../home/index'
+import { useDisclosure } from '@mantine/hooks';
+import GlobalModal from '../Modals/GlobalModal';
 
 export default function Dashboard() {
 	const currentOrganization = useGetCurrentOrg()
-	const [opened, setOpened] = useState(false)
+	const [openTab, setOpened] = useState(false)
+	const [opened, { open, close }] = useDisclosure(false);
 	const {organizations,status,getOrganizations} = useOrganizations()
 	const { logout } = useAuth()
 	const user = useStatus()
@@ -27,7 +32,8 @@ export default function Dashboard() {
 			padding='md'
 			navbar={
 				<NavDashboard
-					opened={opened}
+					opened={openTab}
+					open={open}
 					userInfo={user}
 					currentOrg={currentOrganization}
 					organizations={organizations}
@@ -35,23 +41,7 @@ export default function Dashboard() {
 				/>
 			}
 			header={
-				<Header height={{ base: 50, md: 70 }} p='md'>
-					<div
-						style={{ display: 'flex', alignItems: 'center', height: '100%' }}
-					>
-						<MediaQuery largerThan='sm' styles={{ display: 'none' }}>
-							<Burger
-								opened={opened}
-								onClick={() => setOpened(o => !o)}
-								size='sm'
-								color={'gray'}
-								mr='xl'
-							/>
-						</MediaQuery>
-						{/* 
-						<Text>Application header</Text> */}
-					</div>
-				</Header>
+				<HeaderDashboard opened={openTab} onclick={() => setOpened(o => !o)}/>
 			}
 			styles={theme => ({
 				main: {
@@ -60,9 +50,12 @@ export default function Dashboard() {
 			})}
 			navbarOffsetBreakpoint='sm'
 			asideOffsetBreakpoint='sm'
-		>
+		>	
+			<GlobalModal title={'xd'} onClose={close} opened={opened}>
+				<>xd</>
+			</GlobalModal>
 			<Routes>
-				<Route key={NAV_ITEMS.HOME} path='/' element={<></>} />
+				<Route key={NAV_ITEMS.HOME} path='/' element={<Home/>}/>
 				<Route
 					key={NAV_ITEMS.DYNAMICS}
 					path={LINKS_NAV.DYNAMICS}

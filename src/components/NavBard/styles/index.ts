@@ -36,8 +36,8 @@ export const useStyles = createStyles(theme => ({
 		fontWeight: 500,
 		transition: 'all 100ms ease',
 		'&:hover': {
-			backgroundColor: theme.colors.gray[0],
 			color: theme.black,
+			backgroundColor: theme.colors.gray[0],
 			[`& .${getStylesRef('icon')}`]: {
 				color: theme.black,
 			},
@@ -51,12 +51,7 @@ export const useStyles = createStyles(theme => ({
 	},
 
 	linkActive: {
-		paddingLeft: theme.spacing.lg,
 		'&, &:hover': {
-			backgroundColor: theme.fn.variant({
-				variant: 'light',
-				color: theme.primaryColor,
-			}).background,
 			color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
 				.color,
 			[`& .${getStylesRef('icon')}`]: {

@@ -1,11 +1,12 @@
 import { AuthState } from "./auth.interfaces";
 import { Collaborator } from "./collaborators.interface";
-import { Organizationstate } from "./organizations.interface";
+import { CurrentOrganizationstate } from "./organizations.interface";
 
 export interface  PropsNavBar {
     opened: boolean
     userInfo: AuthState
-    currentOrg  : Organizationstate;
+    currentOrg  : CurrentOrganizationstate;
     organizations : Collaborator[];
+    open: () => void
     logOut?: () => void
 }
