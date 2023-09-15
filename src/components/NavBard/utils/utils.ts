@@ -7,7 +7,7 @@ import {
 	IconRecycle,
 	IconDownload,
 } from '@tabler/icons-react'
-import { LINKS_NAV, NAV_ITEMS } from '../../constants'
+import { LINKS_NAV, NAV_ITEMS } from '../../../constants'
 
 export const mainOptions = [
 	{
@@ -45,8 +45,6 @@ export const mainOptions = [
 		link: LINKS_NAV.SETTINGS,
 		color: 'red'
 	},
-]
-export const othersOptions = [
 	{
 		icon: IconDownload,
 		label: 'Importar dinámicas',

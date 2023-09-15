@@ -1,5 +1,7 @@
 import React from 'react'
 import { Modal, useMantineTheme, ModalProps } from '@mantine/core'
+
+
 export default function GlobalModal({ children, ...props }: ModalProps) {
 	const theme = useMantineTheme()
 	return (

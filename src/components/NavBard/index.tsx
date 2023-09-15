@@ -3,21 +3,15 @@ import {
 	Navbar,
 	UnstyledButton,
 	Group,
-	Input,
-	TextInput,
-	Code,
-	ScrollArea,
 	ActionIcon,
 	MediaQuery,
 } from '@mantine/core'
-import { IconSearch, IconDownload, IconRecycle } from '@tabler/icons-react'
+import { mainOptions } from './utils/utils'
 import { PropsNavBar } from '../../interfaces/Dashboard.interface'
-import { LINKS_NAV, NAV_ITEMS } from '../../constants'
 import { useNavigate } from 'react-router-dom'
 import Organizations from './components/Organizations'
-import { mainOptions, othersOptions } from './utils'
+import {  NAV_ITEMS } from '../../constants'
 import { useStyles } from './styles'
-import { useMantineTheme } from '@mantine/core'
 
 export default function NavDashboard(props: PropsNavBar) {
 	const navitage = useNavigate()
@@ -29,50 +23,33 @@ export default function NavDashboard(props: PropsNavBar) {
 		navitage(link)
 	}
 
-	const links = mainOptions.map(item => (
-		<MediaQuery smallerThan={'lg'} styles={{ justifyContent: 'center' }}>
-			<UnstyledButton
-				className={cx(classes.link, {
-					[classes.linkActive]: item.key === active,
-				})}
-				onClick={() => changeView(item.link, item.key)}
-				key={item.key}
-			>
-				<Group>
-					<ActionIcon color={item.color} variant='light' size={''}>
-						<item.icon size='1.25rem' stroke={1.5} />
-					</ActionIcon>
-					<MediaQuery smallerThan={'lg'} styles={{ display: 'none' }}>
-						<span>{item.label}</span>
-					</MediaQuery>
-				</Group>
-			</UnstyledButton>
-		</MediaQuery>
+	const options = mainOptions.map(item => (
+		<MediaQuery smallerThan={'lg'} styles={{ justifyContent: props.opened ? 'start' : 'center' }} key={item.key}>
+		<UnstyledButton
+			className={cx(classes.link, {
+				[classes.linkActive]: item.key === active,
+			})}
+			onClick={() => changeView(item.link, item.key)}
+
+		>
+			<Group>
+				<ActionIcon color={item.color} variant='light' size={''}>
+					<item.icon size='1.25rem' stroke={1.5} />
+				</ActionIcon>
+				<MediaQuery smallerThan={'lg'} styles={{ display: props.opened ? 'flex' : 'none' }}>
+					<span>{item.label}</span>
+				</MediaQuery>
+			</Group>
+		</UnstyledButton>
+	</MediaQuery>
 	))
-	const others = othersOptions.map(item => (
-		<MediaQuery smallerThan={'lg'} styles={{ justifyContent: 'center' }}>
-			<UnstyledButton
-				className={cx(classes.link, {
-					[classes.linkActive]: item.key === active,
-				})}
-				onClick={() => changeView(item.link, item.key)}
-				key={item.key}
-			>
-				<Group>
-					<ActionIcon color={item.color} variant='light' size={''}>
-						<item.icon size='1.25rem' stroke={1.5} />
-					</ActionIcon>
-					<MediaQuery smallerThan={'lg'} styles={{ display: 'none' }}>
-						<span>{item.label}</span>
-					</MediaQuery>
-				</Group>
-			</UnstyledButton>
-		</MediaQuery>
-	))
+	const links = options.slice(0, options.length - 2)
+	const others = options.slice(options.length - 2, options.length)
+
 
 	return (
 		<Navbar
-			width={{ sm: 100, md: 100, lg: 340, xl: 350 }}
+			width={{ sm: 90, md: 90, lg: 320, xl: 350 }}
 			hiddenBreakpoint='sm'
 			hidden={!props.opened}
 			p='md'
@@ -80,17 +57,7 @@ export default function NavDashboard(props: PropsNavBar) {
 			<Navbar.Section>
 				<Organizations {...props} />
 			</Navbar.Section>
-			{/* <Navbar.Section sx={{ margin: 10 }}>
-				<TextInput
-					placeholder='Buscar'
-					size='xs'
-					icon={<IconSearch size='0.8rem' stroke={1.5} />}
-					rightSectionWidth={70}
-					rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
-					styles={{ rightSection: { pointerEvents: 'none' } }}
-					mb='sm'
-				/>
-			</Navbar.Section> */}
+			
 			<Navbar.Section grow>
 				<Group className={classes.header} position='apart'></Group>
 				{links}

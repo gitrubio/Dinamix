@@ -1,44 +1,29 @@
 import { createStyles, rem } from "@mantine/core";
 
-export const orgStylesSelect = createStyles((theme) => ({
-    dragzone: {
+export const organizationsStyles = createStyles((theme) => ({
+    grid: {
+        width: '100%',
         height: '100%',
-      },
-    item: {
-      display: 'flex',
-      userSelect: 'none',
-      height: rem(70),
-      alignItems: 'center',
-      borderRadius: theme.radius.md,
-      padding: theme.spacing.sm,
-      border: `1px solid ${theme.colors.gray[2]}`,
-      paddingLeft: `calc(${theme.spacing.xl} - ${theme.spacing.md})`, 
-      marginBottom: theme.spacing.lg,
-      
-      '&:hover': {
-        cursor: 'pointer',
-       boxShadow: theme.shadows.sm,
-        color: theme.black,
-    },
+        display: 'fex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
     },
   
-    itemDragging: {
-      boxShadow: theme.shadows.lg,
-    },
-  
-    symbol: {
-      fontSize: rem(14),
-      fontWeight: 500,
-      width: rem(200),
-    },
-  
-    dragHandle: {
-      ...theme.fn.focusStyles(),
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-      paddingLeft: theme.spacing.md,
-      paddingRight: theme.spacing.md,
+    boxForm: {
+        paddingInline: 15,
+        paddingBottom: 15,
+        display: 'flex',
+        width: '100%',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        height: '100%',
+        flexDirection: 'column',
+        borderRight: '3px dashed #e0e0e0',
+        [theme.fn.smallerThan('sm')]: {
+            borderRight: 'none',
+            borderBottom: '3px dashed #e0e0e0',
+          },
     },
   }));

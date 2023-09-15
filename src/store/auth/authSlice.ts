@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthState } from '../../interfaces/auth.interfaces';
-import { Collaborator } from '../../interfaces/collaborators.interface';
 
 
 

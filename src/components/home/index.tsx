@@ -2,6 +2,8 @@ import React from 'react'
 import { Title, SimpleGrid, Grid, Box, Center } from '@mantine/core'
 import { dataDynamics } from './utils'
 import DynamicCard from '../DynamicCard'
+
+
 export default function Home() {
 	const cards = dataDynamics.map(item => (
 		<DynamicCard

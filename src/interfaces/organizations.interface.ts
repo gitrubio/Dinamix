@@ -24,6 +24,7 @@ export interface PropsOrganizationCard {
 export interface PropsOrganizationCardList {
     data : Collaborator[]
     currentId?: string | null
+    edit?: boolean
     onClick: (organization: CurrentOrganizationstate) => void
 }
 

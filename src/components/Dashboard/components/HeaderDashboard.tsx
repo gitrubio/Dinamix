@@ -6,7 +6,7 @@ export default function HeaderDashboard({opened,onclick}: { opened: boolean, onc
     const dispatch = useAppDispatch()
     
 	return (
-		<Header height={{ base: 50, md: 70 }} p='md'>
+		<Header height={{ base: 50, md: 50 }} p='md'>
 					<div
 						style={{ display: 'flex', alignItems: 'center', height: '100%' }}
 					>

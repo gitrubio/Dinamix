@@ -1,97 +1,146 @@
 import React from 'react'
-import { Box, Container, Text, Title,Avatar, Badge } from '@mantine/core'
-import { useAppDispatch } from '../../store/store'
-import { changeCurrentOrg } from '../../store/currentOrganizations'
+import { PropsOrganizationCardList } from '../../interfaces/organizations.interface'
 import {
-	CurrentOrganizationstate,
-	PropsOrganizationCardList,
-} from '../../interfaces/organizations.interface'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { useListState } from '@mantine/hooks'
-import {  IconBuildingSkyscraper, IconGripVertical } from '@tabler/icons-react'
-import { orgStylesSelect } from './styles'
-import { rol_color_replace, rol_replace } from '../../utils/organizations.utils';
+	Alert,
+	Box,
+	Button,
+	Group,
+	SimpleGrid,
+	TextInput,
+	Title,
+	Grid,
+	useMantineTheme,
+	rem,
+} from '@mantine/core'
+import {
+	IconAlertCircle,
+	IconPhoto,
+	IconUpload,
+	IconX,
+} from '@tabler/icons-react'
+import SelectOrganization from './SelectOrganization'
+import { useForm } from '@mantine/form'
+import { organizationsStyles } from './styles'
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 
-export default function SelectOrganization({
-	data,
-}: Omit<PropsOrganizationCardList, 'onClick'>) {
-	const [state, handlers] = useListState(data)
-	const { classes, cx } = orgStylesSelect()
-	const dispatch = useAppDispatch()
-	const change = (orga: CurrentOrganizationstate) => {
-		dispatch(changeCurrentOrg(orga))
-	}
+export default function CreateOrSelectOrganization(
+	props: PropsOrganizationCardList
+) {
+	const theme = useMantineTheme()
+	const { classes } = organizationsStyles()
+	const form = useForm({
+		initialValues: {
+			name: '',
+			email: '',
+			subject: '',
+			message: '',
+		},
+		validate: {
+			name: value => value.trim().length < 2,
+			email: value => !/^\S+@\S+$/.test(value),
+			subject: value => value.trim().length === 0,
+		},
+	})
 
-	const items = state.map((item, index) => (
-		<Draggable
-			key={item.Organization.id}
-			index={index}
-			draggableId={item.Organization.id}
-		>
-			{(provided, snapshot) => (
-				<div
-					onClick={() => change({ ...item.Organization, rol: item.rol })}
-					className={cx(classes.item, {
-						[classes.itemDragging]: snapshot.isDragging,
-					})}
-					ref={provided.innerRef}
-					{...provided.draggableProps}
-				>
-					<div {...provided.dragHandleProps} className={classes.dragHandle}>
-						<IconGripVertical size='1.15rem' stroke={1.5} />
-					</div>
-					
-					<Box sx={{display:  'flex' , alignItems:  'start', flexDirection: 'column', justifyContent: 'space-around'}}>
-						<Text className={classes.symbol}>{item.Organization.name}</Text>
-						<Badge color={rol_color_replace[item.rol]} >{rol_replace[item.rol]}</Badge>
-					</Box>
-					{item.Organization.avatar !== '' ? (
-							<Avatar radius='sm' src={item.Organization.avatar} />
-						) : (
-							<IconBuildingSkyscraper
-								size={40}
-								style={{
-									background: '#d1d1d1',
-									padding: '1px',
-									borderRadius: '20%',
-								}}
-							/>
-						)}
-				</div>
-			)}
-		</Draggable>
-	))
 	return (
-		<Container
-			display={'flex'}
-			style={{
-				alignItems: 'center',
-				height: '100%',
-				flexDirection: 'column',
-			}}
-		>
-			<Box style={{ margin: 20, textAlign: 'center' }}>
-				<Title order={1}>Selecciona una organización</Title>
+		<Grid className={classes.grid}>
+			<Box style={{ margin: 10 }}>
+				{props.edit && (
+					<Alert
+						icon={<IconAlertCircle size='1rem' />}
+						title='Gestion de organizaciones'
+						color='yellow'
+					>
+						En este espacio administre sus organizaciones aquí, puede crear una
+						nueva organización o eliminar las existentes.
+					</Alert>
+				)}
 			</Box>
-			<Box>
-				<DragDropContext
-					onDragEnd={({ destination, source }) =>
-						handlers.reorder({
-							from: source.index,
-							to: destination?.index || 0,
-						})
-					}
-				>
-					<Droppable droppableId='list' direction='vertical' >
-						{provided => (
-							<div {...provided.droppableProps} ref={provided.innerRef} className={classes.dragzone}>
-								{items}
-								{provided.placeholder}
-							</div>
-						)}
-					</Droppable>
-				</DragDropContext>
-			</Box>
-		</Container>
+
+			<SimpleGrid
+				spacing={'xs'}
+				cols={2}
+				breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+				sx={{
+					borderRadius: 20,
+					boxShadow: props.edit ? '' : 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
+				}}
+			>
+				<Box className={classes.boxForm}>
+					<form
+						onSubmit={form.onSubmit(data => {
+							console.log(data)
+						})}
+					>
+						<Title
+							order={3}
+							sx={theme => ({
+								paddingBottom: 50,
+								fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+							})}
+							weight={700}
+							align='center'
+						>
+							Crear Organización
+						</Title>
+						<Dropzone
+							sx={{borderRadius: '50%', width: 100, height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 'auto'}}
+							onDrop={files => console.log('accepted files', files)}
+							onReject={files => console.log('rejected files', files)}
+							maxSize={3 * 1024 ** 2}
+							accept={IMAGE_MIME_TYPE}
+							
+						>
+							<Group
+								position='center'
+								spacing='xl'
+								style={{ minHeight: rem(220), pointerEvents: 'none' }}
+							>
+								<Dropzone.Accept>
+									<IconUpload
+										size='3.2rem'
+										stroke={1.5}
+										color={
+											theme.colors[theme.primaryColor][
+												theme.colorScheme === 'dark' ? 4 : 6
+											]
+										}
+									/>
+								</Dropzone.Accept>
+								<Dropzone.Reject>
+									<IconX
+										size='3.2rem'
+										stroke={1.5}
+										color={
+											theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
+										}
+									/>
+								</Dropzone.Reject>
+								<Dropzone.Idle>
+									<IconPhoto size='3.2rem' stroke={1.5} />
+								</Dropzone.Idle>
+							</Group>
+						</Dropzone>
+						<TextInput
+							label='Nombre'
+							placeholder='name'
+							mt='md'
+							name='subject'
+							variant='filled'
+							{...form.getInputProps('subject')}
+						/>
+						<Group position='center' mt='xl'>
+							<Button type='submit' size='md'>
+								Crear Organización
+							</Button>
+						</Group>
+					</form>
+				</Box>
+
+				<Box>
+					<SelectOrganization {...props} />
+				</Box>
+			</SimpleGrid>
+		</Grid>
 	)
 }

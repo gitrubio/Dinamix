@@ -26,6 +26,7 @@ import { useAppDispatch } from '../../../store/store'
 import { CurrentOrganizationstate } from '../../../interfaces/organizations.interface'
 import { changeCurrentOrg } from '../../../store/currentOrganizations'
 import { DndListHandle } from './DragableItem'
+import { OrgStyles } from '../styles/OrganizationStyles';
 
 const scaleY = {
 	in: { opacity: 1,  positionY: 1 },
@@ -41,10 +42,10 @@ export default function Organizations({
 	open
 }: PropsNavBar) {
 	const theme = useMantineTheme()
-	const [opened, setOpened] = useState(false)
 	const clickOutsideRef = useClickOutside(() => setOpened(false))
+	const [opened, setOpened] = useState(false)
 	const dispatch = useAppDispatch()
-
+	const {classes} =	OrgStyles()
 	const change = (orga: CurrentOrganizationstate) => {
 		dispatch(changeCurrentOrg(orga))
 		setOpened(false)
@@ -63,17 +64,7 @@ export default function Organizations({
 			>
 				<UnstyledButton
 					onClick={openModal}
-					sx={{
-						display: 'block',
-						width: '100%',
-						padding: theme.spacing.xs,
-						borderRadius: theme.radius.sm,
-						color: theme.black,
-						backgroundColor: theme.colors.gray[0],
-						'&:hover': {
-							backgroundColor: theme.colors.gray[2],
-						},
-					}}
+					className={classes.organization}
 				>
 					<Group
 						sx={{
@@ -103,15 +94,12 @@ export default function Organizations({
 						</Box>
 				</MediaQuery>
 						<Box
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								marginInline: 10,
-							}}
+							className={classes.boxIcon}
 						>
 							<IconChevronUp size={rem(18)} />
 							<IconChevronDown size={rem(18)} />
 						</Box>
+					
 					</Group>
 				</UnstyledButton>
 			</Box>
@@ -136,8 +124,7 @@ export default function Organizations({
 						}}
 					>
 						<Box
-							sx={{ padding: theme.spacing.xs, display: 'flex', alignItems: 'center' , justifyContent: 'space-between'}}
-							
+							className={classes.info}
 						>
 							<Text size='sm' weight={500}>
 								{userInfo.email}
@@ -150,31 +137,18 @@ export default function Organizations({
 							<DndListHandle onClick={change} data={organizations} currentId={currentOrg.id}/>
 						</Box>
 						<Box
-							sx={{
-								width: '100%',
-								paddingTop: 5,
-								marginTop: 10,
-								borderTop: `${rem(1)} solid ${theme.colors.gray[2]}`,
-							}}
+							className={classes.linksBox}
 						>
 							<NavLink
 								onClick={open}
 								label='Nueva organización'
-								sx={{
-									'&:hover': {
-										backgroundColor: theme.colors.gray[1],
-									}
-								}}
+								className={classes.link}
 								icon={<IconFilePlus size='1rem' stroke={1.5} />}
 							/>
 							<NavLink
 								onClick={logOut}
 								label='Salir'
-								sx={{
-									'&:hover': {
-										backgroundColor: theme.colors.gray[1],
-									}
-								}}
+								className={classes.link}
 								icon={<IconLogout size='1rem' stroke={1.5} />}
 	
 							/>

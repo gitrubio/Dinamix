@@ -27,6 +27,7 @@ export const useStyles = createStyles(theme => ({
 		...theme.fn.focusStyles(),
 		display: 'flex',
 		alignItems: 'center',
+		juctifyContent: 'center',
 		textDecoration: 'none',
 		fontSize: theme.fontSizes.sm,
 		width: '100%',
@@ -44,10 +45,10 @@ export const useStyles = createStyles(theme => ({
 		},
 	},
 
-	linkIcon: {
-		ref: getStylesRef('icon'),
-		color: theme.colors.gray[6],
-		marginRight: theme.spacing.sm,
+	label: {
+		[theme.fn.smallerThan('lg')]: {
+			display: 'none',
+          },
 	},
 
 	linkActive: {

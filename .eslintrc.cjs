@@ -13,7 +13,6 @@ module.exports = {
     'no-warning-comments': "error",
     'react-refresh/only-export-components': 'warn',
     'semi' : "off",
-    'no-console' : "warn", 
     "no-undef": "error",
     "react-hooks/rules-of-hooks": "off",
     "no-unused-expressions": "warn",
