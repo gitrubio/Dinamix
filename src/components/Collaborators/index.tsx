@@ -6,9 +6,12 @@ import {
 	SimpleGrid,
 	rem,
 	createStyles,
+	Button,
+	Input,
 } from '@mantine/core'
 import { UsersStack } from './components/UsersStack'
-import { Box, Group } from '@mantine/core';
+import { Box, Group } from '@mantine/core'
+import { IconAlertCircle, IconSearch } from '@tabler/icons-react'
 
 const useStyles = createStyles(theme => ({
 	wrapper: {
@@ -59,7 +62,6 @@ const useStyles = createStyles(theme => ({
 	},
 }))
 
-
 export default function Collaborators() {
 	const { classes } = useStyles()
 	return (
@@ -68,12 +70,45 @@ export default function Collaborators() {
 				Colaboradores
 			</Title>
 
-			<Text color='dimmed' className={classes.supTitle}>Administre miembros aquí, todos los que tengan dominios de correo electrónico permitidos pueden unirse al espacio de trabajo automáticamente. </Text>
+			<Text color='dimmed' className={classes.supTitle}>
+				Administre miembros aquí, todos los que tengan dominios de correo
+				electrónico permitidos pueden unirse al espacio de trabajo
+				automáticamente.{' '}
+			</Text>
 			<Box>
-				
+				<Group position='apart'>
+					<Button variant='outline' color='blue'>
+						Agregar miembro
+					</Button>
+					<Input  placeholder='Your email' radius={'lg'} rightSection={<IconSearch  size="1rem"  />}/>
+				</Group>
 			</Box>
 			<Container size={'lg'} p={0}>
-				<UsersStack data={[{avatar: '',email: 'carloviloria0@gmail.com',name: 'carlos',rol: 'admin',userId: 'xasaa'},{avatar: '',email: 'carloviloria0@gmail.com',name: 'carlos',rol: 'admin',userId: 'xasaa'},{avatar: '',email: 'carloviloria0@gmail.com',name: 'carlos',rol: 'admin',userId: 'xasaa'}]} />
+				<UsersStack
+					data={[
+						{
+							avatar: '',
+							email: 'carloviloria0@gmail.com',
+							name: 'carlos',
+							rol: 'admin',
+							userId: 'xasaa',
+						},
+						{
+							avatar: '',
+							email: 'carloviloria0@gmail.com',
+							name: 'carlos',
+							rol: 'admin',
+							userId: 'xasaa',
+						},
+						{
+							avatar: '',
+							email: 'carloviloria0@gmail.com',
+							name: 'carlos',
+							rol: 'admin',
+							userId: 'xasaa',
+						},
+					]}
+				/>
 			</Container>
 		</Container>
 	)
