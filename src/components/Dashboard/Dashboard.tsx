@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { AppShell, LoadingOverlay } from '@mantine/core'
 import CreateOrSelectOrganization from '../organizations'
 import { LINKS_NAV, NAV_ITEMS } from '../../constants'
@@ -20,13 +20,14 @@ export default function Dashboard() {
 	const [modalState, setModalState] = useState<stateModal>(
 		initialStateGlobalModal
 	)
-	const { organizations, status, getOrganizations, changeCurrent } = useOrganizations()
+	const { organizations, status, getOrganizations, changeCurrent } =
+		useOrganizations()
 	const { logout } = useAuth()
 	const user = useStatus()
 
 	const changeState = (section: sectionType) => {
-		console.log(section);
-		
+		console.log(section)
+
 		setModalState(prev => ({ opened: true, section }))
 	}
 
@@ -42,30 +43,7 @@ export default function Dashboard() {
 			/>
 		)
 	return (
-		<AppShell
-			layout='alt'
-			padding='md'
-			navbar={
-				<NavDashboard
-					opened={openTab}
-					openModal={changeState}
-					userInfo={user}
-					currentOrg={currentOrganization}
-					organizations={organizations}
-					logOut={logout}
-				/>
-			}
-			header={
-				<HeaderDashboard opened={openTab} onclick={() => setOpened(o => !o)} />
-			}
-			styles={theme => ({
-				main: {
-					backgroundColor: theme.colors.gray[0],
-				},
-			})}
-			navbarOffsetBreakpoint='sm'
-			asideOffsetBreakpoint='sm'
-		>
+		<Fragment>
 			<GlobalModal
 				key={'global-modal'}
 				state={modalState}
@@ -74,14 +52,42 @@ export default function Dashboard() {
 				}}
 				changeState={changeState}
 			/>
-			<Routes>
-				<Route key={NAV_ITEMS.HOME} path='/' element={<Home />} />
-				<Route
-					key={NAV_ITEMS.DYNAMICS}
-					path={LINKS_NAV.DYNAMICS}
-					element={<p>dinamicas</p>}
-				/>
-			</Routes>
-		</AppShell>
+			<AppShell
+				layout='alt'
+				padding='md'
+				navbar={
+					<NavDashboard
+						opened={openTab}
+						openModal={changeState}
+						userInfo={user}
+						currentOrg={currentOrganization}
+						organizations={organizations}
+						logOut={logout}
+					/>
+				}
+				header={
+					<HeaderDashboard
+						opened={openTab}
+						onclick={() => setOpened(o => !o)}
+					/>
+				}
+				styles={theme => ({
+					main: {
+						backgroundColor: theme.colors.gray[0],
+					},
+				})}
+				navbarOffsetBreakpoint='sm'
+				asideOffsetBreakpoint='sm'
+			>
+				<Routes>
+					<Route key={NAV_ITEMS.HOME} path='/' element={<Home />} />
+					<Route
+						key={NAV_ITEMS.DYNAMICS}
+						path={LINKS_NAV.DYNAMICS}
+						element={<p>dinamicas</p>}
+					/>
+				</Routes>
+			</AppShell>
+		</Fragment>
 	)
 }

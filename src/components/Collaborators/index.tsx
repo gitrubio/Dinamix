@@ -82,7 +82,6 @@ export default function Collaborators() {
 					<Input
 						style={{ width: 300}}
 						placeholder='Your email'
-						radius={'lg'}
 						rightSection={<IconSearch size='1rem' />}
 					/>
 					<Button variant='outline' color='blue'>

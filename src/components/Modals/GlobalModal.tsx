@@ -1,29 +1,35 @@
-import React, { useState } from 'react'
-import { Modal, useMantineTheme, ModalProps, AppShell } from '@mantine/core'
-import NavBar from './components/NavBar'
-import Collaborators from '../Collaborators/index';
-import { GlobalModalProps, sectionType } from '../../interfaces/GlobalModal.interface';
+import React from 'react'
+import { Modal, useMantineTheme, Grid, Container } from '@mantine/core'
+import NavLinks from './components/NavLinks'
+import Collaborators from '../Collaborators/index'
+import {
+	GlobalModalProps,
+	sectionType,
+} from '../../interfaces/GlobalModal.interface'
 
-
-export default function GlobalModal({closed,state,changeState}: GlobalModalProps) {
+export default function GlobalModal({
+	closed,
+	state,
+	changeState,
+}: GlobalModalProps) {
 	const theme = useMantineTheme()
-	
 
-		const componentSection : Record<sectionType, React.JSX.Element> = {
-			profile :  <></>,
-			bin : <></>,
-			collaborators : <Collaborators/>,
-			import : <></>,
-			settings : <></>,
-			templates : <></>,
-		}
+	const componentSection: Record<sectionType, React.JSX.Element> = {
+		profile: <></>,
+		bin: <></>,
+		collaborators: <Collaborators />,
+		import: <></>,
+		settings: <></>,
+		templates: <></>,
+	}
 
-		return (
+	return (
 		<>
 			<Modal
 				opened={state.opened}
 				onClose={closed}
-				size={"90%"}
+				size={'90%'}
+				h={1200}
 				overlayProps={{
 					color:
 						theme.colorScheme === 'dark'
@@ -33,9 +39,14 @@ export default function GlobalModal({closed,state,changeState}: GlobalModalProps
 					blur: 3,
 				}}
 			>
-				<AppShell  navbar={<NavBar section={state.section} changeState={changeState}/>} layout='alt' h={"100%"}>
-					{componentSection[state.section]}
-				</AppShell>
+				<Grid columns={12} mih={500} gutter={'xs'}>
+					<Grid.Col span={2}>
+						<NavLinks section={state.section} changeState={changeState}></NavLinks>
+					</Grid.Col>
+					<Grid.Col span={10}>
+						<Container>{componentSection[state.section]}</Container>
+					</Grid.Col>
+				</Grid>
 			</Modal>
 		</>
 	)
