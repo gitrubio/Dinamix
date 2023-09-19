@@ -39,7 +39,6 @@ export default function Organizations({
 	organizations,
 	userInfo,
 	logOut,
-	open
 }: PropsNavBar) {
 	const theme = useMantineTheme()
 	const clickOutsideRef = useClickOutside(() => setOpened(false))
@@ -140,7 +139,7 @@ export default function Organizations({
 							className={classes.linksBox}
 						>
 							<NavLink
-								onClick={open}
+								onClick={()=>{""}}
 								label='Nueva organización'
 								className={classes.link}
 								icon={<IconFilePlus size='1rem' stroke={1.5} />}

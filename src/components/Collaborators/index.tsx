@@ -3,16 +3,17 @@ import {
 	Container,
 	Text,
 	Title,
-	SimpleGrid,
-	rem,
-	createStyles,
+	Loader,
 	Button,
 	Input,
+	rem,
+	createStyles,
 } from '@mantine/core'
 import { UsersStack } from './components/UsersStack'
 import { Box, Group } from '@mantine/core'
-import { IconAlertCircle, IconSearch } from '@tabler/icons-react'
-
+import { IconSearch } from '@tabler/icons-react'
+import useCollaborators from '../../hooks/useCollaborators'
+import useGetCurrentOrg from '../../hooks/useGetCurrentOrg'
 const useStyles = createStyles(theme => ({
 	wrapper: {
 		paddingTop: rem(30),
@@ -61,11 +62,12 @@ const useStyles = createStyles(theme => ({
 		color: theme.colorScheme === 'dark' ? theme.white : 'inherit',
 	},
 }))
-
 export default function Collaborators() {
-	const { classes } = useStyles()
+	const organization = useGetCurrentOrg()
+	const {classes} = useStyles()
+	const { collaborators, loading } = useCollaborators(organization.id)
 	return (
-		<Container size={'lg'} className={classes.wrapper}>
+		<Container size={'xl'} className={classes.wrapper}>
 			<Title className={classes.title} order={3}>
 				Colaboradores
 			</Title>
@@ -75,40 +77,21 @@ export default function Collaborators() {
 				electrónico permitidos pueden unirse al espacio de trabajo
 				automáticamente.{' '}
 			</Text>
-			<Box>
+			<Box style={{ marginBlock: 10 }}>
 				<Group position='apart'>
+					<Input
+						style={{ width: 300}}
+						placeholder='Your email'
+						radius={'lg'}
+						rightSection={<IconSearch size='1rem' />}
+					/>
 					<Button variant='outline' color='blue'>
 						Agregar miembro
 					</Button>
-					<Input  placeholder='Your email' radius={'lg'} rightSection={<IconSearch  size="1rem"  />}/>
 				</Group>
 			</Box>
-			<Container size={'lg'} p={0}>
-				<UsersStack
-					data={[
-						{
-							avatar: '',
-							email: 'carloviloria0@gmail.com',
-							name: 'carlos',
-							rol: 'admin',
-							userId: 'xasaa',
-						},
-						{
-							avatar: '',
-							email: 'carloviloria0@gmail.com',
-							name: 'carlos',
-							rol: 'admin',
-							userId: 'xasaa',
-						},
-						{
-							avatar: '',
-							email: 'carloviloria0@gmail.com',
-							name: 'carlos',
-							rol: 'admin',
-							userId: 'xasaa',
-						},
-					]}
-				/>
+			<Container size={'xl'} p={0}>
+				{loading ? <div style={{display: "flex", justifyContent: "center"}}><Loader/></div>: <UsersStack  data={collaborators} />}
 			</Container>
 		</Container>
 	)

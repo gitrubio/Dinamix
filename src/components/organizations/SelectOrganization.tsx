@@ -19,7 +19,6 @@ import { IconTrashX } from '@tabler/icons-react'
 export default function SelectOrganization({
 	data,
 	onClick,
-	edit,
 }: PropsOrganizationCardList) {
 	const [state, handlers] = useListState(data)
 	const { classes, cx } = orgStylesSelect()
@@ -39,15 +38,9 @@ export default function SelectOrganization({
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 				>
-					{edit ? (
-						<div className={classes.delete}>
-							<IconTrashX />
-						</div>
-					) : (
-						<div {...provided.dragHandleProps} className={classes.dragHandle}>
-							<IconGripVertical size='1.15rem' stroke={1.5} />
-						</div>
-					)}
+					<div {...provided.dragHandleProps} className={classes.dragHandle}>
+						<IconGripVertical size='1.15rem' stroke={1.5} />
+					</div>
 
 					<Box
 						sx={{
@@ -96,7 +89,7 @@ export default function SelectOrganization({
 					weight={700}
 					align='center'
 				>
-					{`${edit ? 'Eliminar' : 'Selecciona'} una organización`}
+					Selecciona una organización
 				</Title>
 			</Box>
 			<Box>
