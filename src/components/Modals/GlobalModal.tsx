@@ -3,6 +3,7 @@ import { Modal, useMantineTheme, Grid, Container } from '@mantine/core'
 import NavLinks from './components/NavLinks'
 import Collaborators from '../Collaborators/index'
 import Profile from '../Profile/Profile';
+import Configuration from '../Configuration/Configuration';
 import {
 	GlobalModalProps,
 	sectionType,
@@ -20,7 +21,7 @@ export default function GlobalModal({
 		bin: <></>,
 		collaborators: <Collaborators />,
 		import: <></>,
-		settings: <></>,
+		settings: <Configuration/>,
 		templates: <></>,
 	}
 

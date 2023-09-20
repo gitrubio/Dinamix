@@ -6,7 +6,7 @@ const initialState: CurrentOrganizationstate = {
 	id: null,
     name: '',
     avatar: '',
-    rol: 'viewer'
+    rol: 'guest'
 };
 
 export const persistLocalStorageState = ( orgInfo : CurrentOrganizationstate) => {
@@ -28,7 +28,7 @@ export const CurrentOrganizationSlice = createSlice({
 			state.id = null;
 			state.avatar = '';
 			state.name = '';
-			state.rol = 'viewer';
+			state.rol = 'guest';
 			//localStorage.removeItem('currentOrg')
 		}
 	},

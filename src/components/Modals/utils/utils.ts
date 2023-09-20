@@ -2,9 +2,7 @@ import {
 	IconHome,
 	IconTemplate,
 	IconDeviceGamepad2,
-	IconUsers,
 	IconSettings,
-	IconRecycle,
 	IconDownload,
 } from '@tabler/icons-react'
 import { LINKS_NAV } from '../../../constants'

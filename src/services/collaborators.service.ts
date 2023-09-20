@@ -1,11 +1,13 @@
 import { CollaboratorCollectionRef } from '../firebase/providers'
 import { ResponseService } from '../interfaces/api.interface'
-import { Collaborator } from '../interfaces/collaborators.interface'
+import { Collaborator } from '../interfaces/collaborators.interface';
 import {
 	addDoc,
 	getDocs,
 	query,
+	updateDoc,
 	where,
+	doc
 } from 'firebase/firestore'
 
 export class CollaboratorsService {
@@ -22,6 +24,15 @@ export class CollaboratorsService {
 			return { data: newEventId, error: null }
 		} catch (error) {
 			return { data: null, error: null }
+		}
+	}
+	async update(collaboratorId: string, collaborator : Partial<Collaborator>): Promise<ResponseService<boolean>> {
+		try {
+			const collaboratorRef = doc(this.CollaboratorCollection, collaboratorId)
+			const querySnapshot = await updateDoc(collaboratorRef,collaborator)
+			return { data: true, error: null }
+		} catch (error) {
+			return { data: false, error: null }
 		}
 	}
 	async getOrganizationsByCollaborator(
@@ -59,7 +70,7 @@ export class CollaboratorsService {
 			)
 			const querySnapshot = await getDocs(queryData)
 			querySnapshot.forEach(snapshot => {
-				organizationsByUser.push(snapshot.data())
+				organizationsByUser.push({...snapshot.data(), id : snapshot.id})
 			})
 			return { data: organizationsByUser, error: null }
 		} catch (error) {

@@ -1,11 +1,8 @@
 import { notifications } from '@mantine/notifications'
 import { loginWithEmailPassword, logoutSession } from '../../firebase/auth/auth'
 import { IUser } from '../../interfaces/auth.interfaces'
-import {
-	checkingCredentials,
-	login,
-	logout,
-} from './authSlice'
+import { checkingCredentials, login, logout } from './authSlice'
+import { UserServices } from '../../services'
 
 const welcomeMessage = () => {
 	notifications.show({
@@ -20,11 +17,15 @@ export const authLogin = (user: IUser) => {
 		dispatch(checkingCredentials())
 		const { data } = await loginWithEmailPassword(user.email, user.password)
 		if (data) {
+			const { data: userData } = await UserServices.getUserData(data.uid)
+			console.log('userData', userData);
+			
 			welcomeMessage()
 			dispatch(
 				login({
 					uid: data?.uid,
-					displayName: data?.displayName,
+					displayName: userData.displayName,
+					photoURL: userData.photoURL,
 					email: data?.email,
 				})
 			)

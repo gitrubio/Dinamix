@@ -1,7 +1,6 @@
 import React from 'react'
 import { PropsOrganizationCardList } from '../../interfaces/organizations.interface'
 import {
-	Alert,
 	Box,
 	Button,
 	Group,
@@ -13,7 +12,6 @@ import {
 	rem,
 } from '@mantine/core'
 import {
-	IconAlertCircle,
 	IconPhoto,
 	IconUpload,
 	IconX,

@@ -14,7 +14,6 @@ import { useListState } from '@mantine/hooks'
 import { IconBuildingSkyscraper, IconGripVertical } from '@tabler/icons-react'
 import { orgStylesSelect } from './styles/selectOrg.styles'
 import { rol_color_replace, rol_replace } from '../../utils/organizations.utils'
-import { IconTrashX } from '@tabler/icons-react'
 
 export default function SelectOrganization({
 	data,

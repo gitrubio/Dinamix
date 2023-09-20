@@ -1,4 +1,4 @@
-import { Collaborator } from "./collaborators.interface";
+
 
 export interface IUser {
     email: string;

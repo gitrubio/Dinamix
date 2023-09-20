@@ -5,22 +5,23 @@ import {
 	Text,
 	ActionIcon,
 	ScrollArea,
-    Select,
+	Select,
+	Tooltip,
 } from '@mantine/core'
-import {
-	IconTrashX,
-} from '@tabler/icons-react'
-import { justCollaborator } from '../../../../interfaces/collaborators.interface'
-
+import { IconTrashX } from '@tabler/icons-react'
+import { Collaborator, RollCollaborator } from '../../../interfaces/collaborators.interface'
 interface UsersStackProps {
-	data: justCollaborator[]
+	data: Collaborator[]
+	userId: string
+	onclick: (id: string,collaborator: Collaborator, myUser: boolean) => void
+	loadRol: string
 }
 
-export function UsersStack({ data }: UsersStackProps) {
+export function UsersStack({ data, userId , onclick, loadRol}: UsersStackProps) {
 	const rows = data.map(item => (
-		<tr key={item.name} >
-			<td>
-				<Group spacing='sm'>
+		<tr key={item.name}>
+			<td width={200}>
+				<Group spacing='xs'>
 					<Avatar size={40} src={item.avatar} radius={40} />
 					<div>
 						<Text fz='sm' fw={500}>
@@ -32,29 +33,34 @@ export function UsersStack({ data }: UsersStackProps) {
 					</div>
 				</Group>
 			</td>
-			<td>
-            <Group w={300} >
-				<Select
-                    w={140}
-                    withinPortal
-                    variant='filled'
-                    value={item.rol}
-                    onChange={()=>{''}}
-					placeholder='Elija un rol'
-					data={[
-						{ value: 'owner', label: 'propietario' },
-						{ value: 'admin', label: 'administrador' },
-						{ value: 'editor', label: 'editor' },
-						{ value: 'viewer', label: 'espectador' },
-					]}
-				/>
-                </Group>
+			<td width={200}>
+				<Group>
+					<Select
+						w={160}
+						disabled={item.id === loadRol}
+						withinPortal
+						variant='filled'
+						value={item.rol}
+						onChange={(value) => {
+							onclick(item.id, { ...item,rol: value as RollCollaborator }, item.userId === userId)
+						}}
+						placeholder='Elija un rol'
+						data={[
+							{ value: 'owner', label: 'Propietario' },
+							{ value: 'admin', label: 'Administrador' },
+							{ value: 'editor', label: 'Editor' },
+							{ value: 'guest', label: 'Invitado' },
+						]}
+					/>
+				</Group>
 			</td>
-			<td>
+			<td width={40}>
 				<Group position='left'>
-					<ActionIcon>
-						<IconTrashX size='1rem' stroke={1.5} />
-					</ActionIcon>
+					<Tooltip label={item.userId === userId ? "No puedes eliminar al propietario" : "Eliminar"}>
+						<ActionIcon >
+							<IconTrashX size='1rem' stroke={1.5} color='red' />
+						</ActionIcon>
+					</Tooltip>
 				</Group>
 			</td>
 		</tr>
@@ -62,7 +68,7 @@ export function UsersStack({ data }: UsersStackProps) {
 
 	return (
 		<ScrollArea>
-			<Table sx={{ minWidth: 800}} verticalSpacing='md' highlightOnHover >
+			<Table sx={{ minWidth: '100%' }} verticalSpacing='md' highlightOnHover>
 				<thead>
 					<tr>
 						<th>Nombre</th>
