@@ -45,16 +45,6 @@ export default function CreateOrSelectOrganization(
 	return (
 		<Grid className={classes.grid}>
 			<Box style={{ margin: 10 }}>
-				{props.edit && (
-					<Alert
-						icon={<IconAlertCircle size='1rem' />}
-						title='Gestion de organizaciones'
-						color='yellow'
-					>
-						En este espacio administre sus organizaciones aquí, puede crear una
-						nueva organización o eliminar las existentes.
-					</Alert>
-				)}
 			</Box>
 
 			<SimpleGrid
@@ -63,7 +53,7 @@ export default function CreateOrSelectOrganization(
 				breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
 				sx={{
 					borderRadius: 20,
-					boxShadow: props.edit ? '' : 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
+					boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
 				}}
 			>
 				<Box className={classes.boxForm}>

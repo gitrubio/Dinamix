@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, useMantineTheme, Grid, Container } from '@mantine/core'
 import NavLinks from './components/NavLinks'
 import Collaborators from '../Collaborators/index'
+import Profile from '../Profile/Profile';
 import {
 	GlobalModalProps,
 	sectionType,
@@ -15,7 +16,7 @@ export default function GlobalModal({
 	const theme = useMantineTheme()
 
 	const componentSection: Record<sectionType, React.JSX.Element> = {
-		profile: <></>,
+		profile: <Profile />,
 		bin: <></>,
 		collaborators: <Collaborators />,
 		import: <></>,
