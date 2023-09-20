@@ -18,8 +18,7 @@ export const authLogin = (user: IUser) => {
 		const { data } = await loginWithEmailPassword(user.email, user.password)
 		if (data) {
 			const { data: userData } = await UserServices.getUserData(data.uid)
-			console.log('userData', userData);
-			
+
 			welcomeMessage()
 			dispatch(
 				login({

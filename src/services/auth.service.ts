@@ -29,7 +29,6 @@ export class UserService {
 		try {
 			const querySnapshot = await getDoc(doc(this.UserCollection,userID))
 			const data = querySnapshot.data()
-            console.log('data',data);
             
 			return { data: data ?? {displayName: '', photoURL: ''}, error: null }
 		} catch (error) {

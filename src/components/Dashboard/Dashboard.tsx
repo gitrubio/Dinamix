@@ -26,8 +26,6 @@ export default function Dashboard() {
 	const user = useStatus()
 
 	const changeState = (section: sectionType) => {
-		console.log(section)
-
 		setModalState(prev => ({ opened: true, section }))
 	}
 

@@ -21,14 +21,11 @@ export default function useCollaborators(orgId: string | null) {
         setLoading(false)
 	}
 	const updateCollaborator = async (id: string,collaborator: Collaborator, myUser : boolean) => {
-		console.log(id,collaborator);
 		setLoadRol(id)
 		const {data} = await CollaboratorServices.update(id,{rol: collaborator.rol})
 		if(data){
 			const newColla = collaborators.filter(collaborator => collaborator.id !== id)
 			if(myUser){
-				console.log("actualizando my usuario");
-				
 			const newStateOrganization = Organizations.filter(org => org.Organization.id !== collaborator.Organization.id)
 			dispatch(changeOrganizations([...newStateOrganization,collaborator]))
 			dispatch(changeCurrentOrg({...collaborator.Organization, rol: collaborator.rol}))
