@@ -5,9 +5,9 @@ import { authLogOut, authLogin } from '../store/auth'
 import { useNavigate } from 'react-router-dom'
 
 export default function useAuth() {
-    const dispatch = useAppDispatch()
-    const navitage = useNavigate()
-    const login = (values: IUser) => {
+	const dispatch = useAppDispatch()
+	const navitage = useNavigate()
+	const login = (values: IUser) => {
 		dispatch(authLogin(values))
 	}
 
@@ -15,9 +15,9 @@ export default function useAuth() {
 		dispatch(authLogOut()).then(() => {
 			navitage('/login')
 		})
-    }
-    return {
-        login,
-        logout
-    }
+	}
+	return {
+		login,
+		logout,
+	}
 }
